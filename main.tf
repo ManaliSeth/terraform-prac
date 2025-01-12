@@ -1,14 +1,18 @@
 resource "aws_instance" "web" {
     ami = var.ami_id
-    instance_type = "t2.micro"
+    instance_type = var.ec2_instance_size
 
     tags = {
-        Name = "HelloWorld"
+        Name = var.ec2_instance_name
     }
 }
 
 resource "github_repository" "example" {
-    name = "terraform-demo"
-    description = "This repo is created using terraform"
-    visibility = "private"
+    name = var.github_repo_name
+    description =var.github_repo_description
+    visibility = var.github_repo_visibility
+}
+
+output "ipaddress" {
+    value = aws_instance.web.public_ip
 }
